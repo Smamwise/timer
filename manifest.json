@@ -1,0 +1,31 @@
+{
+    "name": "timer",
+    "short_name": "timer",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#000000",
+    "form_factor": "auto",
+    "icons": [
+      {
+        "src": "/files/android-chrome-192x192.png",
+        "sizes": "192x192",
+        "type": "image/png"
+      },
+      {
+        "src": "/files/android-chrome-512x512.png",
+        "sizes": "512x512",
+        "type": "image/png"
+      }
+    ],
+    "screenshots": [    
+   {
+
+     "src": "/files/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "label": "Application"
+    }
+ ],
+ "description": "light js app for ggwave"
+  }
