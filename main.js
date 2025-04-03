@@ -133,15 +133,8 @@ console.log('requesting Screen Wake Lock.');
   }
 };
 
-/*
 // Request a screen wake lock…
 await requestWakeLock();
-// …and release it again after 3h.
-window.setTimeout(() => {
-  wakeLock.release();
-  wakeLock = null;
-}, 10800000);
-*/
 
 if ("serviceWorker" in navigator) {
     navigator.serviceWorker.register("/timer/serviceworker.js")
