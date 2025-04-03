@@ -1,12 +1,12 @@
-
 let countdown;
 let timeLeft = 10;
 let isPaused = false;
 let isRunning = false;
 let initialTime = 10;
 const resetButton = document.getElementById("resetButton");
-const soundMenu = document.getElementById("soundMenu");
-let soundMenuOpen = false;
+const settingsModal = document.getElementById("settingsModal");
+const soundModal = document.getElementById("soundModal");
+let currentSound = "/timer/files/mixkit-sci-fi-bleep-alarm-909.wav";
 
 // Setup sound menu functionality
 document.querySelectorAll('.sound-option').forEach(option => {
@@ -77,12 +77,6 @@ function resetTimer() {
     isPaused = false;
     isRunning = false;
     document.getElementById("controlButton").textContent = "Start";
-    
-    // Add rotation animation
-    resetButton.classList.add("rotating");
-    setTimeout(() => {
-        resetButton.classList.remove("rotating");
-    }, 500);
 }
 
 function runTimer() {
@@ -114,6 +108,95 @@ function adjustTime(amount) {
     updateDisplay(timeLeft);
 }
 
+// Settings modal functions
+function openSettings() {
+    // Set current values in the inputs
+    const minutes = Math.floor(timeLeft / 60);
+    const seconds = timeLeft % 60;
+    document.getElementById("minutesInput").value = minutes;
+    document.getElementById("secondsInput").value = seconds;
+    
+    // Show the modal
+    settingsModal.style.display = "block";
+}
+
+function closeSettings() {
+    settingsModal.style.display = "none";
+}
+
+function saveSettings() {
+    const minutes = parseInt(document.getElementById("minutesInput").value) || 0;
+    const seconds = parseInt(document.getElementById("secondsInput").value) || 0;
+    
+    // Ensure values are within valid ranges
+    const validMinutes = Math.max(0, Math.min(59, minutes));
+    const validSeconds = Math.max(0, Math.min(59, seconds));
+    
+    // Calculate total time in seconds
+    const newTime = (validMinutes * 60) + validSeconds;
+    
+    // Update time if not zero
+    if (newTime > 0) {
+        timeLeft = newTime;
+        initialTime = newTime;
+        updateDisplay(timeLeft);
+        
+        // Reset timer state if it was running
+        if (isRunning) {
+            clearInterval(countdown);
+            isRunning = false;
+            isPaused = false;
+            document.getElementById("controlButton").textContent = "Start";
+        }
+    }
+    
+    // Close the modal
+    closeSettings();
+}
+
+// Close modal when clicking outside of it
+window.onclick = function(event) {
+    if (event.target === settingsModal) {
+        closeSettings();
+    }
+    if (event.target === soundModal) {
+        closeSoundModal();
+    }
+};
+
+// Sound modal functions
+function openSoundModal() {
+    // Mark current sound as selected
+    document.querySelectorAll('.sound-option').forEach(option => {
+        if (option.getAttribute('data-sound') === currentSound) {
+            option.classList.add('selected');
+        } else {
+            option.classList.remove('selected');
+        }
+    });
+    
+    // Show the modal
+    soundModal.style.display = "block";
+}
+
+function closeSoundModal() {
+    soundModal.style.display = "none";
+}
+
+function previewSound(soundPath) {
+    const preview = document.getElementById('preview');
+    preview.src = soundPath;
+    preview.play();
+}
+
+function saveSoundSetting() {
+    const selectedOption = document.querySelector('.sound-option.selected');
+    if (selectedOption) {
+        currentSound = selectedOption.getAttribute('data-sound');
+        document.getElementById('alarm').src = currentSound;
+    }
+    closeSoundModal();
+}
 
 // The wake lock sentinel.
 let wakeLock = null;
@@ -140,4 +223,4 @@ if ("serviceWorker" in navigator) {
     navigator.serviceWorker.register("/timer/serviceworker.js")
         .then((registration) => console.log("Service Worker registered:", registration))
         .catch((error) => console.log("Service Worker registration failed:", error));
-    }
+}
