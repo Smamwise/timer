@@ -120,7 +120,9 @@ let wakeLock = null;
 
 // Function that attempts to request a screen wake lock.
 const requestWakeLock = async () => {
+console.log('requesting Screen Wake Lock.');
   try {
+    console.log('requesting Screen Wake Lock.');
     wakeLock = await navigator.wakeLock.request();
     wakeLock.addEventListener('release', () => {
       console.log('Screen Wake Lock released:', wakeLock.released);
