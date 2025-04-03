@@ -134,7 +134,7 @@ console.log('requesting Screen Wake Lock.');
 };
 
 // Request a screen wake lock…
-await requestWakeLock();
+requestWakeLock();
 
 if ("serviceWorker" in navigator) {
     navigator.serviceWorker.register("/timer/serviceworker.js")
