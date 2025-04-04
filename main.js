@@ -6,7 +6,7 @@ let initialTime = 0;
 const resetButton = document.getElementById("resetButton");
 const settingsModal = document.getElementById("settingsModal");
 const soundModal = document.getElementById("soundModal");
-let currentSound = "/files/mixkit-sci-fi-bleep-alarm-909.wav";
+let currentSound = "/timer/files/mixkit-sci-fi-bleep-alarm-909.wav";
 
 // Setup sound menu functionality
 document.querySelectorAll('.sound-option').forEach(option => {
@@ -14,16 +14,10 @@ document.querySelectorAll('.sound-option').forEach(option => {
         // Update the selected sound
         document.querySelectorAll('.sound-option').forEach(o => o.classList.remove('selected'));
         this.classList.add('selected');
-        
         // Update the alarm sound source
         document.getElementById('alarm').src = this.getAttribute('data-sound');
-        
-        // Close the menu
-        toggleSoundMenu();
     });
 });
-
-
 
 function toggleTimer() {
     if (!isRunning) {
