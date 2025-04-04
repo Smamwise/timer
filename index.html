@@ -6,23 +6,24 @@
     <title>Countdown Timer</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Doto:wght@100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Doto:wght@100..900&family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <meta name="mobile-web-app-capable" content="yes">
-    <link rel="manifest" href="/timer/manifest.json">
+    <link rel="manifest" href="manifest.json">
 </head>
 <body>
     <div class="timer-wrapper">
         <div class="timer-container">
-            <div id="timer">00:10</div>
+            <div id="timer">00:00</div>
         </div>
     </div>
     <div class="button-container">
         <button id="controlButton" onclick="toggleTimer()">Start</button>
-        <button id="resetButton" onclick="resetTimer()">⟳</button>
-        <button id="settingsButton" onclick="openSettings()">⚙️</button>
-        <button id="soundButton" onclick="openSoundModal()">🔔</button>
+        <button id="resetButton" onclick="resetTimer()">Reset</button>
+        <button id="settingsButton" onclick="openSettings()">Settings</button>
     </div>
+
+    
 
     <!-- Settings Modal -->
     <div id="settingsModal" class="modal">
@@ -30,42 +31,35 @@
                 <div class="time-input-container">
                 <div class="time-input">
                     <label for="minutesInput">Minutes</label>
-                    <input type="number" id="minutesInput" min="0" max="59" value="0">
+                    <input type="number" id="minutesInput" min="0" max="99" value="00">
                 </div>
-                <div class="time-input">
+               <!-- <div class="time-input">
                     <label for="secondsInput">Seconds</label>
-                    <input type="number" id="secondsInput" min="0" max="59" value="10">
-                </div>
+                    <input type="number" id="secondsInput" min="0" max="59" value="00">
+                </div> -->
             </div>
-            <button id="saveSettings" onclick="saveSettings()">Save</button>
-        </div>
-    </div>
 
-      <!-- Sound Modal -->
-      <div id="soundModal" class="modal">
-        <div class="modal-content">
-            <span class="close-button" onclick="closeSoundModal()">&times;</span>
-            <h2>Select Alarm Sound</h2>
             <div class="sound-options-container">
-                <div class="sound-option" data-sound="/timer/files/mixkit-sci-fi-bleep-alarm-909.wav">
-                    <span class="sound-name">Beep</span>
-                    <button class="preview-button" onclick="previewSound('/timer/files/mixkit-sci-fi-bleep-alarm-909.wav')">Preview</button>
+                <div class="sound-option selected" data-sound="/files/mixkit-sci-fi-bleep-alarm-909.wav">
+                    <span class="sound-name">Sound 1</span>
+                    <button class="preview-button" onclick="previewSound('/files/mixkit-sci-fi-bleep-alarm-909.wav')">Preview</button>
                 </div>
-                <div class="sound-option" data-sound="/timer/files/mixkit-software-interface-back-2575.wav">
-                    <span class="sound-name">Boop</span>
-                    <button class="preview-button" onclick="previewSound('/timer/files/mixkit-software-interface-back-2575.wav')">Preview</button>
+                <div class="sound-option" data-sound="/files/mixkit-software-interface-back-2575.wav">
+                    <span class="sound-name">Sound 2</span>
+                    <button class="preview-button" onclick="previewSound('/files/mixkit-software-interface-back-2575.wav')">Preview</button>
                 </div>
-                <div class="sound-option" data-sound="/timer/files/mixkit-software-interface-start-2574.wav">
-                    <span class="sound-name">Blim</span>
-                    <button class="preview-button" onclick="previewSound('/timer/files/mixkit-software-interface-start-2574.wav')">Preview</button>
+                <div class="sound-option" data-sound="/files/mixkit-software-interface-start-2574.wav">
+                    <span class="sound-name">Sound 3</span>
+                    <button class="preview-button" onclick="previewSound('/files/mixkit-software-interface-start-2574.wav')">Preview</button>
                 </div>
             </div>
-            <button id="saveSoundSetting" onclick="saveSoundSetting()">Save</button>
+            <button id="saveSettings" onclick="saveSettings();">Save</button>
         </div>
     </div>
 
-    <audio id="alarm" src="/timer/files/mixkit-sci-fi-bleep-alarm-909.wav"></audio>
+    <audio id="alarm" src="/files/mixkit-sci-fi-bleep-alarm-909.wav"></audio>
     <audio id="preview" src=""></audio>
     <script type="text/javascript" src="main.js"></script>
+
 </body>
 </html>

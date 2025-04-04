@@ -1,12 +1,12 @@
 let countdown;
-let timeLeft = 10;
+let timeLeft = 0;
 let isPaused = false;
 let isRunning = false;
-let initialTime = 10;
+let initialTime = 0;
 const resetButton = document.getElementById("resetButton");
 const settingsModal = document.getElementById("settingsModal");
 const soundModal = document.getElementById("soundModal");
-let currentSound = "/timer/files/mixkit-sci-fi-bleep-alarm-909.wav";
+let currentSound = "/files/mixkit-sci-fi-bleep-alarm-909.wav";
 
 // Setup sound menu functionality
 document.querySelectorAll('.sound-option').forEach(option => {
@@ -23,17 +23,7 @@ document.querySelectorAll('.sound-option').forEach(option => {
     });
 });
 
-// Close sound menu when clicking elsewhere
-document.addEventListener('click', function(event) {
-    if (!event.target.closest('#soundButton') && !event.target.closest('#soundMenu') && soundMenuOpen) {
-        toggleSoundMenu();
-    }
-});
 
-function toggleSoundMenu() {
-    soundMenuOpen = !soundMenuOpen;
-    soundMenu.style.display = soundMenuOpen ? 'block' : 'none';
-}
 
 function toggleTimer() {
     if (!isRunning) {
@@ -47,7 +37,6 @@ function toggleTimer() {
 
 function startTimer() {
     clearInterval(countdown);
-    initialTime = timeLeft;
     updateDisplay(timeLeft);
     isPaused = false;
     isRunning = true;
@@ -85,7 +74,6 @@ function runTimer() {
         if (timeLeft === 0) {
             document.getElementById("alarm").play();
             clearInterval(countdown);
-            isRunning = false;
             setTimeout(() => {
                 timeLeft = initialTime;
                 runTimer();
@@ -111,11 +99,18 @@ function adjustTime(amount) {
 // Settings modal functions
 function openSettings() {
     // Set current values in the inputs
-    const minutes = Math.floor(timeLeft / 60);
-    const seconds = timeLeft % 60;
-    document.getElementById("minutesInput").value = minutes;
-    document.getElementById("secondsInput").value = seconds;
+    // const minutes = Math.floor(timeLeft / 60);
+    // const seconds = timeLeft % 60;
+    // document.getElementById("minutesInput").value = minutes;
+    // document.getElementById("secondsInput").value = seconds;
     
+    document.querySelectorAll('.sound-option').forEach(option => {
+        if (option.getAttribute('data-sound') === currentSound) {
+            option.classList.add('selected');
+        } else {
+            option.classList.remove('selected');
+        }
+    });
     // Show the modal
     settingsModal.style.display = "block";
 }
@@ -126,14 +121,12 @@ function closeSettings() {
 
 function saveSettings() {
     const minutes = parseInt(document.getElementById("minutesInput").value) || 0;
-    const seconds = parseInt(document.getElementById("secondsInput").value) || 0;
     
     // Ensure values are within valid ranges
-    const validMinutes = Math.max(0, Math.min(59, minutes));
-    const validSeconds = Math.max(0, Math.min(59, seconds));
+    const validMinutes = Math.max(0, Math.min(99, minutes));
     
     // Calculate total time in seconds
-    const newTime = (validMinutes * 60) + validSeconds;
+    const newTime = (validMinutes * 60);
     
     // Update time if not zero
     if (newTime > 0) {
@@ -150,6 +143,12 @@ function saveSettings() {
         }
     }
     
+    const selectedOption = document.querySelector('.sound-option.selected');
+    if (selectedOption) {
+        currentSound = selectedOption.getAttribute('data-sound');
+        document.getElementById('alarm').src = currentSound;
+    }
+    
     // Close the modal
     closeSettings();
 }
@@ -159,29 +158,7 @@ window.onclick = function(event) {
     if (event.target === settingsModal) {
         closeSettings();
     }
-    if (event.target === soundModal) {
-        closeSoundModal();
-    }
 };
-
-// Sound modal functions
-function openSoundModal() {
-    // Mark current sound as selected
-    document.querySelectorAll('.sound-option').forEach(option => {
-        if (option.getAttribute('data-sound') === currentSound) {
-            option.classList.add('selected');
-        } else {
-            option.classList.remove('selected');
-        }
-    });
-    
-    // Show the modal
-    soundModal.style.display = "block";
-}
-
-function closeSoundModal() {
-    soundModal.style.display = "none";
-}
 
 function previewSound(soundPath) {
     const preview = document.getElementById('preview');
@@ -189,14 +166,6 @@ function previewSound(soundPath) {
     preview.play();
 }
 
-function saveSoundSetting() {
-    const selectedOption = document.querySelector('.sound-option.selected');
-    if (selectedOption) {
-        currentSound = selectedOption.getAttribute('data-sound');
-        document.getElementById('alarm').src = currentSound;
-    }
-    closeSoundModal();
-}
 
 // The wake lock sentinel.
 let wakeLock = null;
@@ -220,7 +189,7 @@ console.log('requesting Screen Wake Lock.');
 requestWakeLock();
 
 if ("serviceWorker" in navigator) {
-    navigator.serviceWorker.register("/timer/serviceworker.js")
+    navigator.serviceWorker.register("serviceworker.js")
         .then((registration) => console.log("Service Worker registered:", registration))
         .catch((error) => console.log("Service Worker registration failed:", error));
 }

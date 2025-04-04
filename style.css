@@ -1,5 +1,5 @@
 body {
-    font-family: Arial, sans-serif;
+    font-family: "Space Grotesk", sans-serif;
     text-align: center;
     background: black;
     color: white;
@@ -7,13 +7,14 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    margin: 0 auto;
     height: 100vh;
-    margin: 0;
 }
 .timer-wrapper {
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-left: 13px;
 }
 .timer-container {
     display: flex;
@@ -31,18 +32,15 @@ body {
     margin-top: 20px;
     align-items: center;
 }
-#controlButton, #settingsButton, #soundButton, #resetButton {
+#controlButton, #settingsButton, #resetButton {
     font-family: "Doto", sans-serif;
-    font-size: 30px;
+    font-size: 24px;
     cursor: pointer;
     background-color: black;
-    text-decoration: none;
+    text-decoration: dotted underline;
+    text-decoration-color: #555555;
     border: none;
     color: white;
-}
-#settingsButton, #soundButton, #resetButton {
-    font-size: 24px;
-    padding: 8px;
 }
 
 /* Modal Styles */
@@ -61,49 +59,32 @@ body {
 .modal-content {
     background-color: #222;
     margin: 15% auto;
-    padding: 20px;
+    padding: 5px;
     border: 1px solid #444;
     border-radius: 8px;
-    width: 300px;
+    width: 200px;
     position: relative;
 }
 
-.close-button {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-    cursor: pointer;
-}
 
-.close-button:hover,
-.close-button:focus {
-    color: white;
-    text-decoration: none;
-}
-
-.time-input-container {
+.time-input, .sound-option {
     display: flex;
     justify-content: space-between;
-    margin: 20px 0;
-}
-
-.time-input {
-    display: flex;
-    flex-direction: column;
     align-items: center;
-    width: 45%;
-}
-
-.time-input label {
-    margin-bottom: 5px;
-    font-size: 18px;
+    padding: 2px;
+    margin-bottom: 2px;
+    background: #333;
+    border-radius: 4px;
+    transition: background 0.2s;
+    cursor: pointer;
+    font-size: 16px;
 }
 
 .time-input input {
-    width: 80%;
-    padding: 10px;
-    font-size: 20px;
+    font-family: "Space Grotesk", sans-serif;
+    width: 70px;
+    padding: 2px;
+    font-size: 16px;
     text-align: center;
     background: #333;
     color: white;
@@ -111,38 +92,17 @@ body {
     border-radius: 4px;
 }
 
-#saveSettings, #saveSoundSetting {
-    width: 100%;
-    padding: 10px;
-    margin-top: 10px;
+.preview-button {
+    font-family: "Space Grotesk", sans-serif;
+    width: 76px;
+    padding: 2px;
+    font-size: 16px;
     background: #444;
-    color: white;
     border: none;
+    color: white;
     border-radius: 4px;
-    font-size: 18px;
     cursor: pointer;
     transition: background 0.2s;
-}
-
-#saveSettings:hover, #saveSoundSetting:hover {
-    background: #555;
-}
-
-/* Sound Options Styling */
-.sound-options-container {
-    margin: 20px 0;
-}
-
-.sound-option {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 12px;
-    margin-bottom: 10px;
-    background: #333;
-    border-radius: 4px;
-    transition: background 0.2s;
-    cursor: pointer;
 }
 
 .sound-option:hover {
@@ -151,23 +111,38 @@ body {
 
 .sound-option.selected {
     background: #444;
-    border-left: 4px solid #66aaff;
+    border-left: 4px solid #66ff66;
 }
 
 .sound-name {
     font-size: 16px;
 }
 
-.preview-button {
+.preview-button:hover {
+    background: #475247;
+}
+
+.preview-button:active {
+    background: #2fc22f;
+}
+
+#saveSettings {
+    font-family: "Space Grotesk", sans-serif;
+    width: 100%;
+    padding: 5px;
     background: #444;
-    border: none;
     color: white;
-    padding: 6px 10px;
+    border: none;
     border-radius: 4px;
+    font-size: 16px;
     cursor: pointer;
     transition: background 0.2s;
 }
 
-.preview-button:hover {
-    background: #555;
+#saveSettings:hover {
+    background: #475247;
+}
+
+#saveSettings:active {
+    background: #2fc22f;
 }
