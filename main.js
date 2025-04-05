@@ -3,9 +3,10 @@ let timeLeft = 0;
 let isPaused = false;
 let isRunning = false;
 let initialTime = 0;
+let wakeLockEnabled = true;
+let autoRestartEnabled = true;
 const resetButton = document.getElementById("resetButton");
 const settingsModal = document.getElementById("settingsModal");
-const soundModal = document.getElementById("soundModal");
 let currentSound = "/timer/files/mixkit-sci-fi-bleep-alarm-909.wav";
 
 // Setup sound menu functionality
@@ -25,7 +26,7 @@ function toggleTimer() {
     } else if (isPaused) {
         resumeTimer();
     } else {
-        stopTimer();
+        pauseTimer();
     }
 }
 
@@ -39,7 +40,7 @@ function startTimer() {
     document.getElementById("controlButton").textContent = "Pause";
 }
 
-function stopTimer() {
+function pauseTimer() {
     clearInterval(countdown);
     isPaused = true;
     document.getElementById("controlButton").textContent = "Resume";
@@ -63,16 +64,24 @@ function resetTimer() {
 }
 
 function runTimer() {
-    if (!isPaused) {
+    isRunning = true;
+    if (!isPaused && isRunning) {
         updateDisplay(timeLeft);
         if (timeLeft === 0) {
             document.getElementById("alarm").play();
             clearInterval(countdown);
-            setTimeout(() => {
-                timeLeft = initialTime;
-                runTimer();
-                countdown = setInterval(runTimer, 1000);
-            }, 1000);
+            
+            // Check if auto-restart is enabled
+            if (autoRestartEnabled) {
+                setTimeout(() => {
+                    timeLeft = initialTime;
+                    runTimer();
+                    countdown = setInterval(runTimer, 1000);
+                }, 1000);
+            } else {
+                // Reset to initial time but don't restart
+                resetTimer()
+            }
         } else {
             timeLeft--;
         }
@@ -105,6 +114,10 @@ function openSettings() {
             option.classList.remove('selected');
         }
     });
+    // Set wake lock checkbox state
+    document.getElementById('wakeLockCheckbox').checked = wakeLockEnabled;
+    // Set auto-restart checkbox state
+    document.getElementById('autoRestartCheckbox').checked = autoRestartEnabled;
     // Show the modal
     settingsModal.style.display = "block";
 }
@@ -142,6 +155,17 @@ function saveSettings() {
         currentSound = selectedOption.getAttribute('data-sound');
         document.getElementById('alarm').src = currentSound;
     }
+
+    // Handle wake lock setting
+    wakeLockEnabled = document.getElementById('wakeLockCheckbox').checked;
+    if (wakeLockEnabled) {
+        requestWakeLock();
+    } else {
+        releaseWakeLock();
+    }
+
+    // Handle auto-restart setting
+    autoRestartEnabled = document.getElementById('autoRestartCheckbox').checked;
     
     // Close the modal
     closeSettings();
@@ -166,17 +190,24 @@ let wakeLock = null;
 
 // Function that attempts to request a screen wake lock.
 const requestWakeLock = async () => {
-console.log('requesting Screen Wake Lock.');
-  try {
-    console.log('requesting Screen Wake Lock.');
-    wakeLock = await navigator.wakeLock.request();
-    wakeLock.addEventListener('release', () => {
-      console.log('Screen Wake Lock released:', wakeLock.released);
-    });
-    console.log('Screen Wake Lock released:', wakeLock.released);
-  } catch (err) {
-    console.error(`${err.name}, ${err.message}`);
-  }
+    if (!wakeLockEnabled) return;
+    try {
+      wakeLock = await navigator.wakeLock.request();
+      wakeLock.addEventListener('release', () => {
+        console.log('Screen Wake Lock released:', wakeLock.released);
+      });
+      console.log('Screen Wake Lock acquired');
+    } catch (err) {
+      console.error('Screen Wake Lock Error:', `${err.name}, ${err.message}`);
+    }
+  };
+
+const releaseWakeLock = async () => {
+if (wakeLock !== null) {
+    await wakeLock.release();
+    wakeLock = null;
+    console.log('Wake Lock released');
+}
 };
 
 // Request a screen wake lock…

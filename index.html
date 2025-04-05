@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <title>Countdown Timer</title>
-    <link rel="icon" type="image/x-icon" href="/timer/files/favicon.ico">
+    <link rel="icon" type="image/x-icon" href="/timer/favicon.ico">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Doto:wght@100..900&family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet">
@@ -47,6 +47,14 @@
                     <span class="sound-name">Sound 3</span>
                     <button class="preview-button" onclick="previewSound('/timer/files/mixkit-software-interface-start-2574.wav')">Preview</button>
                 </div>
+            </div>
+            <div class="wake-lock-container">
+                <label for="wakeLockCheckbox" class="wake-lock-label">Keep screen on</label>
+                <input type="checkbox" id="wakeLockCheckbox" checked>
+            </div>
+            <div class="auto-restart-container">
+                <label for="autoRestartCheckbox" class="auto-restart-label">Auto-restart timer</label>
+                <input type="checkbox" id="autoRestartCheckbox" checked>
             </div>
             <button id="saveSettings" onclick="saveSettings();">Save</button>
         </div>

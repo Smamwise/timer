@@ -146,3 +146,26 @@ body {
 #saveSettings:active {
     background: #2fc22f;
 }
+
+.auto-restart-container, .wake-lock-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px;
+    margin-bottom: 2px;
+    background: #333;
+    border-radius: 4px;
+}
+
+.auto-restart-label, .wake-lock-label {
+    font-size: 16px;
+}
+
+#autoRestartCheckbox, #wakeLockCheckbox {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    background-color: #222;
+    accent-color: #2fc22f;
+}
+
