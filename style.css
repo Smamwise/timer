@@ -132,7 +132,7 @@ body {
 }
 
 .divider{
-    width: 0.5em;
+    width: 10px;
 }
 
 #saveSettings, #closeSettings {
@@ -164,10 +164,7 @@ body {
     background: #c22f2f;
 }
 
-
-
-
-.auto-restart-container, .wake-lock-container {
+.auto-restart-container, .wake-lock-container, .fullscreen-container {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -177,15 +174,14 @@ body {
     border-radius: 4px;
 }
 
-.auto-restart-label, .wake-lock-label {
+.auto-restart-label, .wake-lock-label, .fullscreen-label {
     font-size: 16px;
 }
 
-#autoRestartCheckbox, #wakeLockCheckbox {
+#autoRestartCheckbox, #wakeLockCheckbox, #fullscreenCheckbox {
     width: 16px;
     height: 16px;
     cursor: pointer;
     background-color: #222;
     accent-color: #2fc22f;
 }
-

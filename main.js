@@ -224,3 +224,31 @@ if ("serviceWorker" in navigator) {
         .then((registration) => console.log("Service Worker registered:", registration))
         .catch((error) => console.log("Service Worker registration failed:", error));
 }
+
+// Add event listener for fullscreen checkbox
+document.getElementById('fullscreenCheckbox').addEventListener('change', function() {
+    if (this.checked) {
+        // Enter fullscreen
+        if (document.documentElement.requestFullscreen) {
+            document.documentElement.requestFullscreen();
+        } else if (document.documentElement.webkitRequestFullscreen) { /* Safari */
+            document.documentElement.webkitRequestFullscreen();
+        } else if (document.documentElement.msRequestFullscreen) { /* IE11 */
+            document.documentElement.msRequestFullscreen();
+        }
+    } else {
+        // Exit fullscreen
+        if (document.exitFullscreen) {
+            document.exitFullscreen();
+        } else if (document.webkitExitFullscreen) { /* Safari */
+            document.webkitExitFullscreen();
+        } else if (document.msExitFullscreen) { /* IE11 */
+            document.msExitFullscreen();
+        }
+    }
+});
+
+// Update checkbox state when fullscreen state changes by other means (like Esc key)
+document.addEventListener('fullscreenchange', function() {
+    document.getElementById('fullscreenCheckbox').checked = !!document.fullscreenElement;
+});
