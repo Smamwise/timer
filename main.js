@@ -31,6 +31,24 @@ function toggleTimer() {
 }
 
 function startTimer() {
+    // Prevent starting the timer if time is zero
+    if (timeLeft <= 0) {
+        console.log("Cannot start timer with 00:00");
+        
+        // Visual feedback - briefly highlight the timer in red
+        const timerElement = document.getElementById("timer");
+        timerElement.style.color = "#ff6666"; // Change to red
+        timerElement.style.fontSize  = "60px";
+        timerElement.innerHTML = 'ERROR<br>INVALID TIME';
+        
+        setTimeout(() => {
+            timerElement.style.color = "white"; // Revert back to original color
+            timerElement.style.fontSize  = "120px";
+            timerElement.innerHTML = "00:00"
+        }, 300); // After 200ms
+        
+        return; // Exit the function early
+    }
     clearInterval(countdown);
     updateDisplay(timeLeft);
     isPaused = false;
@@ -68,9 +86,8 @@ function runTimer() {
     if (!isPaused && isRunning) {
         updateDisplay(timeLeft);
         if (timeLeft === 0) {
-            document.getElementById("alarm").play();
+            currentSound.play();
             clearInterval(countdown);
-            
             // Check if auto-restart is enabled
             if (autoRestartEnabled) {
                 setTimeout(() => {
@@ -100,13 +117,7 @@ function adjustTime(amount) {
 }
 
 // Settings modal functions
-function openSettings() {
-    // Set current values in the inputs
-    // const minutes = Math.floor(timeLeft / 60);
-    // const seconds = timeLeft % 60;
-    // document.getElementById("minutesInput").value = minutes;
-    // document.getElementById("secondsInput").value = seconds;
-    
+function openSettings() {   
     document.querySelectorAll('.sound-option').forEach(option => {
         if (option.getAttribute('data-sound') === currentSound) {
             option.classList.add('selected');
