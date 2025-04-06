@@ -37,7 +37,7 @@ function startTimer() {
         const timerElement = document.getElementById("timer");
         timerElement.style.color = "#ff6666"; // Change to red
         timerElement.style.fontSize  = "60px";
-        timerElement.innerHTML = 'ERROR<br>INVALID TIME';
+        timerElement.innerHTML = 'INVALID<br>TIME';
         
         setTimeout(() => {
             timerElement.style.color = "white"; // Revert back to original color
