@@ -32,9 +32,7 @@ function toggleTimer() {
 
 function startTimer() {
     // Prevent starting the timer if time is zero
-    if (timeLeft <= 0) {
-        console.log("Cannot start timer with 00:00");
-        
+    if (timeLeft <= 0) {        
         // Visual feedback - briefly highlight the timer in red
         const timerElement = document.getElementById("timer");
         timerElement.style.color = "#ff6666"; // Change to red
@@ -86,7 +84,7 @@ function runTimer() {
     if (!isPaused && isRunning) {
         updateDisplay(timeLeft);
         if (timeLeft === 0) {
-            currentSound.play();
+            document.getElementById("alarm").play();
             clearInterval(countdown);
             // Check if auto-restart is enabled
             if (autoRestartEnabled) {
@@ -145,20 +143,17 @@ function saveSettings() {
     
     // Calculate total time in seconds
     const newTime = (validMinutes * 60);
+
+    timeLeft = newTime;
+    initialTime = newTime;
+    updateDisplay(timeLeft);
     
-    // Update time if not zero
-    if (newTime > 0) {
-        timeLeft = newTime;
-        initialTime = newTime;
-        updateDisplay(timeLeft);
-        
-        // Reset timer state if it was running
-        if (isRunning) {
-            clearInterval(countdown);
-            isRunning = false;
-            isPaused = false;
-            document.getElementById("controlButton").textContent = "Start";
-        }
+    // Reset timer state if it was running
+    if (isRunning) {
+        clearInterval(countdown);
+        isRunning = false;
+        isPaused = false;
+        document.getElementById("controlButton").textContent = "Start";
     }
     
     const selectedOption = document.querySelector('.sound-option.selected');

@@ -126,7 +126,16 @@ body {
     background: #2fc22f;
 }
 
-#saveSettings {
+.settings-button-container {
+    display: flex;
+    flex-direction: row;
+}
+
+.divider{
+    width: 0.5em;
+}
+
+#saveSettings, #closeSettings {
     font-family: "Space Grotesk", sans-serif;
     width: 100%;
     padding: 5px;
@@ -146,6 +155,17 @@ body {
 #saveSettings:active {
     background: #2fc22f;
 }
+
+#closeSettings:hover {
+    background: #524747;
+}
+
+#closeSettings:active {
+    background: #c22f2f;
+}
+
+
+
 
 .auto-restart-container, .wake-lock-container {
     display: flex;

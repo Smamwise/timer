@@ -60,7 +60,11 @@
                 <label for="autoRestartCheckbox" class="auto-restart-label">Auto-restart timer</label>
                 <input type="checkbox" id="autoRestartCheckbox" checked>
             </div>
-            <button id="saveSettings" onclick="saveSettings();">Save</button>
+            <div class="settings-button-container">
+                <button id="saveSettings" onclick="saveSettings();">Save</button>
+                <div class="divider"></div>
+                <button id="closeSettings" onclick="closeSettings();">Discard</button>
+            </div>
         </div>
     </div>
 
