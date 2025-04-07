@@ -42,8 +42,8 @@ function startTimer() {
         setTimeout(() => {
             timerElement.style.color = "white"; // Revert back to original color
             timerElement.style.fontSize  = "120px";
-            timerElement.innerHTML = "00:00"
-        }, 300); // After 200ms
+            updateDisplay(timeLeft);
+        }, 400);
         
         return; // Exit the function early
     }
@@ -251,4 +251,20 @@ document.getElementById('fullscreenCheckbox').addEventListener('change', functio
 // Update checkbox state when fullscreen state changes by other means (like Esc key)
 document.addEventListener('fullscreenchange', function() {
     document.getElementById('fullscreenCheckbox').checked = !!document.fullscreenElement;
+});
+
+
+const timerText = document.querySelector("#timer");
+
+timerText.addEventListener("click", function() {
+    // Visual feedback - briefly highlight the timer in red
+    timerText.style.color = "#ff6666"; // Change to red
+    timerText.style.fontSize  = "60px";
+    timerText.innerHTML = 'Change time<br>in settings';
+    
+    setTimeout(() => {
+        timerText.style.color = "white"; // Revert back to original color
+        timerText.style.fontSize  = "120px";
+        updateDisplay(timeLeft);
+    }, 400); // After 200ms
 });
