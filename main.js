@@ -259,8 +259,8 @@ const timerText = document.querySelector("#timer");
 timerText.addEventListener("click", function() {
     // Visual feedback - briefly highlight the timer in red
     timerText.style.color = "#ff6666"; // Change to red
-    timerText.style.fontSize  = "60px";
-    timerText.innerHTML = 'Change time<br>in settings';
+    timerText.style.fontSize  = "40px";
+    timerText.innerHTML = 'Change time <br>in settings<br>&#8203;';
     
     setTimeout(() => {
         timerText.style.color = "white"; // Revert back to original color
