@@ -22,12 +22,27 @@ document.querySelectorAll('.sound-option').forEach(option => {
 
 // VolumeSlider
 const slider = document.getElementById('volumeSlider');
+const display = document.getElementById('volumeDisplay'); // You'll need this element in your HTML
 
-    // If you have audio elements, you can control their volume like this:
-    // yourAudioElement.volume = this.value / 100;
-    // document.querySelectorAll('audio').forEach(audio => {
-    // audio.volume = this.value / 100;
-    // });
+if (slider) {
+    slider.addEventListener('input', function() {
+        const volume = this.value / 100;
+        
+        // Update display if you have one
+        if (display) {
+            display.textContent = this.value;
+        }
+        
+        // Control all audio elements
+        document.getElementById('alarm').volume = volume;
+        document.getElementById('preview').volume = volume;
+    });
+    
+    // Initialize volume on page load
+    const initialVolume = slider.value / 100;
+    document.getElementById('alarm').volume = initialVolume;
+    document.getElementById('preview').volume = initialVolume;
+}
 
 function toggleTimer() {
     if (!isRunning) {
@@ -138,6 +153,17 @@ function openSettings() {
     document.getElementById('autoRestartCheckbox').checked = autoRestartEnabled;
     // Show the modal
     settingsModal.style.display = "block";
+
+    // Load saved volume setting (add this in openSettings() function)
+    const savedVolume = localStorage.getItem('timerVolume') || '50';
+    document.getElementById('volumeSlider').value = savedVolume;
+    if (display) {
+        display.textContent = savedVolume;
+    }
+    // Apply the volume to audio elements
+    const volume = savedVolume / 100;
+    document.getElementById('alarm').volume = volume;
+    document.getElementById('preview').volume = volume;
 }
 
 function closeSettings() {
@@ -146,6 +172,10 @@ function closeSettings() {
 
 function saveSettings() {
     const minutes = parseInt(document.getElementById("minutesInput").value) || 0;
+
+    // Volume
+    const volumeValue = document.getElementById('volumeSlider').value;
+    localStorage.setItem('timerVolume', volumeValue);
     
     // Ensure values are within valid ranges
     const validMinutes = Math.max(0, Math.min(99, minutes));
