@@ -20,6 +20,15 @@ document.querySelectorAll('.sound-option').forEach(option => {
     });
 });
 
+// VolumeSlider
+const slider = document.getElementById('volumeSlider');
+
+    // If you have audio elements, you can control their volume like this:
+    // yourAudioElement.volume = this.value / 100;
+    // document.querySelectorAll('audio').forEach(audio => {
+    // audio.volume = this.value / 100;
+    // });
+
 function toggleTimer() {
     if (!isRunning) {
         startTimer();
