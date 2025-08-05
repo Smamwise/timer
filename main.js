@@ -21,7 +21,7 @@ document.querySelectorAll('.sound-option').forEach(option => {
 });
 
 // VolumeSlider
-const slider = document.getElementById('volumeSlider');
+/*const slider = document.getElementById('volumeSlider');
 const display = document.getElementById('volumeDisplay'); // You'll need this element in your HTML
 
 if (slider) {
@@ -43,6 +43,7 @@ if (slider) {
     document.getElementById('alarm').volume = initialVolume;
     document.getElementById('preview').volume = initialVolume;
 }
+*/
 
 function toggleTimer() {
     if (!isRunning) {
@@ -153,7 +154,7 @@ function openSettings() {
     document.getElementById('autoRestartCheckbox').checked = autoRestartEnabled;
     // Show the modal
     settingsModal.style.display = "block";
-
+/*
     // Load saved volume setting (add this in openSettings() function)
     const savedVolume = localStorage.getItem('timerVolume') || '50';
     document.getElementById('volumeSlider').value = savedVolume;
@@ -164,6 +165,7 @@ function openSettings() {
     const volume = savedVolume / 100;
     document.getElementById('alarm').volume = volume;
     document.getElementById('preview').volume = volume;
+*/
 }
 
 function closeSettings() {
@@ -172,11 +174,11 @@ function closeSettings() {
 
 function saveSettings() {
     const minutes = parseInt(document.getElementById("minutesInput").value) || 0;
-
+/*
     // Volume
     const volumeValue = document.getElementById('volumeSlider').value;
     localStorage.setItem('timerVolume', volumeValue);
-    
+ */   
     // Ensure values are within valid ranges
     const validMinutes = Math.max(0, Math.min(99, minutes));
     
@@ -307,3 +309,4 @@ timerText.addEventListener("click", function() {
         updateDisplay(timeLeft);
     }, 400); // After 200ms
 });
+
