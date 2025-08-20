@@ -55,7 +55,7 @@ async function previewSound(soundPath) {
     // Create a source and play it
     const source = audioContext.createBufferSource();
     source.buffer = audioBuffer;
-    source.connect(audioContext.destination);
+    source.connect(gainNode);
     source.start(0);
 }
 
@@ -319,6 +319,7 @@ timerText.addEventListener("click", function() {
         updateDisplay(timeLeft);
     }, 400); // After 200ms
 });
+
 
 
 
