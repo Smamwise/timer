@@ -38,6 +38,19 @@ async function playAlarm() {
   source.start(0);
 }
 
+async function previewSound(soundPath) {
+    // Fetch the file
+    const response = await fetch(soundPath);
+    const arrayBuffer = await response.arrayBuffer();
+    const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
+
+    // Create a source and play it
+    const source = audioContext.createBufferSource();
+    source.buffer = audioBuffer;
+    source.connect(audioContext.destination);
+    source.start(0);
+}
+
 // VolumeSlider
 /*const slider = document.getElementById('volumeSlider');
 const display = document.getElementById('volumeDisplay'); // You'll need this element in your HTML
@@ -243,13 +256,6 @@ window.onclick = function(event) {
     }
 };
 
-function previewSound(soundPath) {
-    const preview = document.getElementById('preview');
-    preview.src = soundPath;
-    preview.play();
-}
-
-
 // The wake lock sentinel.
 let wakeLock = null;
 
@@ -327,4 +333,5 @@ timerText.addEventListener("click", function() {
         updateDisplay(timeLeft);
     }, 400); // After 200ms
 });
+
 
