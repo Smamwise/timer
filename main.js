@@ -20,6 +20,24 @@ document.querySelectorAll('.sound-option').forEach(option => {
     });
 });
 
+// Create an AudioContext once (e.g. on page load or first user interaction)
+const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+
+async function playAlarm() {
+  const alarmElement = document.getElementById("alarm");
+
+  // Fetch the audio data
+  const response = await fetch(alarmElement.src);
+  const arrayBuffer = await response.arrayBuffer();
+  const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
+
+  // Play through Web Audio API
+  const source = audioContext.createBufferSource();
+  source.buffer = audioBuffer;
+  source.connect(audioContext.destination);
+  source.start(0);
+}
+
 // VolumeSlider
 /*const slider = document.getElementById('volumeSlider');
 const display = document.getElementById('volumeDisplay'); // You'll need this element in your HTML
@@ -109,7 +127,7 @@ function runTimer() {
     if (!isPaused && isRunning) {
         updateDisplay(timeLeft);
         if (timeLeft === 0) {
-            document.getElementById("alarm").play();
+            playAlarm();
             clearInterval(countdown);
             // Check if auto-restart is enabled
             if (autoRestartEnabled) {
