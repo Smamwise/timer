@@ -22,6 +22,14 @@ document.querySelectorAll('.sound-option').forEach(option => {
 
 // Create an AudioContext once (e.g. on page load or first user interaction)
 const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+const gainNode = audioContext.createGain(); 
+gainNode.connect(audioContext.destination);
+
+// Update volume when slider moves
+const volumeSlider = document.getElementById("volumeSlider");
+volumeSlider.addEventListener("input", () => {
+    gainNode.gain.value = parseFloat(volumeSlider.value);
+});
 
 async function playAlarm() {
   const alarmElement = document.getElementById("alarm");
@@ -34,7 +42,7 @@ async function playAlarm() {
   // Play through Web Audio API
   const source = audioContext.createBufferSource();
   source.buffer = audioBuffer;
-  source.connect(audioContext.destination);
+  source.connect(gainNode);
   source.start(0);
 }
 
@@ -50,31 +58,6 @@ async function previewSound(soundPath) {
     source.connect(audioContext.destination);
     source.start(0);
 }
-
-// VolumeSlider
-/*const slider = document.getElementById('volumeSlider');
-const display = document.getElementById('volumeDisplay'); // You'll need this element in your HTML
-
-if (slider) {
-    slider.addEventListener('input', function() {
-        const volume = this.value / 100;
-        
-        // Update display if you have one
-        if (display) {
-            display.textContent = this.value;
-        }
-        
-        // Control all audio elements
-        document.getElementById('alarm').volume = volume;
-        document.getElementById('preview').volume = volume;
-    });
-    
-    // Initialize volume on page load
-    const initialVolume = slider.value / 100;
-    document.getElementById('alarm').volume = initialVolume;
-    document.getElementById('preview').volume = initialVolume;
-}
-*/
 
 function toggleTimer() {
     if (!isRunning) {
@@ -321,6 +304,9 @@ document.addEventListener('fullscreenchange', function() {
 
 const timerText = document.querySelector("#timer");
 
+// Initialize default volume
+gainNode.gain.value = parseFloat(volumeSlider.value);
+
 timerText.addEventListener("click", function() {
     // Visual feedback - briefly highlight the timer in red
     timerText.style.color = "#ff6666"; // Change to red
@@ -333,5 +319,6 @@ timerText.addEventListener("click", function() {
         updateDisplay(timeLeft);
     }, 400); // After 200ms
 });
+
 
 
